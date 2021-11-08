@@ -6,7 +6,7 @@ namespace pmp_client_cli
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World");
+
         }
     }
 }
