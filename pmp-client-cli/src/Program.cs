@@ -9,6 +9,14 @@ namespace pmp_client_cli
         {
             Data data = new Data();
 
+            if (!Utils.MasterFileExists())
+            {
+                Console.Write("Master password not configured. Please type in a new master password: ");
+                string input = Console.ReadLine();
+                Utils.InitMasterFile(input);
+                return;
+            }
+
             data.Init(args);
             String pass = data.GeneratePass();
             
