@@ -1,5 +1,4 @@
 ﻿using System;
-using TextCopy;
 
 namespace pmp_client_cli
 {
@@ -7,25 +6,27 @@ namespace pmp_client_cli
     {
         public static void Main(string[] args)
         {
-            Data data = new Data();
-
             if (!Utils.MasterFileExists())
             {
                 Console.Write("Master password not configured. Please type in a new master password: ");
                 string input = Console.ReadLine();
-                Utils.InitMasterFile(input);
+                Console.Write("Please type full server address: ");
+                string path = Console.ReadLine();
+                Utils.InitMasterFile(input, path);
                 return;
             }
-
-            data.Init(args);
-            String pass = data.GeneratePass();
-            
-            ClipboardService.SetText(pass);
-
-            string encPass = Crypto.Encrypt(pass, "testkey");
-            Console.WriteLine(encPass);
-            Console.WriteLine(Crypto.Decrypt(encPass, "testkey"));
-            
+            else
+            {
+                Console.Write("Please enter your master password: ");
+                string input = Console.ReadLine();
+                
+                if (!Utils.ReadMasterFile(input))
+                {
+                    Console.WriteLine("Error initializing master file. Please delete the file " +
+                                      "and generate a new one.");
+                    return;
+                }
+            }
         }
     }
 }
