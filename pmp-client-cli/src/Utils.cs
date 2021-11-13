@@ -6,12 +6,14 @@ namespace pmp_client_cli
 {
     public static class Utils
     {
+        public static string ServerAddr { get; set; }
         private const string MasterPassFile = "./master.json";
         private const string MasterKey = "MASTERKEY"; //TODO: Move out obviously
 
         private class JsonData
         {
             public string Key;
+            public string ServerAddr;
         }
 
         public static bool MasterFileExists()
@@ -27,12 +29,13 @@ namespace pmp_client_cli
             }
         }
 
-        public static bool InitMasterFile(string pass)
+        public static bool InitMasterFile(string pass, string serverAddr)
         {
             try
             {
                 JsonData data = new JsonData();
                 data.Key = Crypto.Encrypt(pass, MasterKey);
+                data.ServerAddr = serverAddr;
 
                 string json = JsonConvert.SerializeObject(data);
                 File.WriteAllText(MasterPassFile, json);
@@ -53,6 +56,7 @@ namespace pmp_client_cli
                 JsonData data = new JsonData();
                 data = JsonConvert.DeserializeObject<JsonData>(File.ReadAllText(MasterPassFile));
                 string filePass = data.Key;
+                ServerAddr = data.ServerAddr;
 
                 if (Crypto.Decrypt(filePass, MasterKey) == pass)
                     return true;

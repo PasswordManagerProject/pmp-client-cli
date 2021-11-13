@@ -4,7 +4,7 @@ using System.Text;
 
 namespace pmp_client_cli
 {
-    public class Data
+    public class PassData
     {
         private const string LengthFlag = "-l";
         private const string NoSpecialFlag = "-ns";
@@ -26,7 +26,7 @@ namespace pmp_client_cli
         private string _whitelist;
         private string _password;
 
-        public Data()
+        public PassData()
         {
             _length = 25;
             _init = false;
